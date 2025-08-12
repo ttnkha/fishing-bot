@@ -1,0 +1,29 @@
+{
+  "baits": [
+    { "name": "Giun đất", "rarity": 1 },
+    { "name": "Ruồi chúa", "rarity": 2 },
+    { "name": "Bọ ánh trăng", "rarity": 3 }
+  ],
+  "rods": [
+    { "level": 1, "code": "wood", "name": "Gỗ", "price": 0 },
+    { "level": 2, "code": "iron", "name": "Sắt", "price": 5000 },
+    { "level": 3, "code": "titan", "name": "Titan", "price": 15000 },
+    { "level": 4, "code": "gold", "name": "Vàng", "price": 50000 }
+  ],
+  "fishes": [
+    { "name": "Cá nục", "rarity": 1, "price": 100 },
+    { "name": "Cá diếc", "rarity": 1, "price": 100 },
+    { "name": "Cá lòng tong", "rarity": 1, "price": 100 },
+    { "name": "Cá rô phi", "rarity": 2, "price": 200 },
+    { "name": "Cá trê", "rarity": 2, "price": 200 },
+    { "name": "Cá chép vàng", "rarity": 3, "price": 400 },
+    { "name": "Cá mè", "rarity": 3, "price": 400 },
+    { "name": "Cá hồi", "rarity": 4, "price": 800 },
+    { "name": "Cá mú", "rarity": 4, "price": 800 },
+    { "name": "Cá kiếm", "rarity": 5, "price": 1600 },
+    { "name": "Cá rồng", "rarity": 5, "price": 1600 },
+    { "name": "Cá thần thoại", "rarity": 6, "price": 3200 },
+    { "name": "Cá phát sáng", "rarity": 6, "price": 3200 }
+  ],
+  "trash": [{ "name": "Vỏ chai" }, { "name": "Túi nilon" }, { "name": "Giày cũ" }]
+}

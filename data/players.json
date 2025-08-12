@@ -1,0 +1,34 @@
+{
+  "298633034922590208": {
+    "rod": {
+      "level": 2,
+      "code": "iron",
+      "name": "Sắt",
+      "price": 5000
+    },
+    "bait": [
+      {
+        "name": "Ruồi chúa",
+        "rarity": 2
+      }
+    ],
+    "inventory": [
+      {
+        "name": "Cá nục",
+        "rarity": 1,
+        "price": 100
+      },
+      {
+        "name": "Cá diếc",
+        "rarity": 1,
+        "price": 100
+      },
+      {
+        "name": "Cá lòng tong",
+        "rarity": 1,
+        "price": 100
+      }
+    ],
+    "coins": 300
+  }
+}

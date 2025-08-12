@@ -1,0 +1,15 @@
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { handleStart } = require("@handlers/botHandlers");
+const { loadData, saveData } = require("@services/dataStore");
+
+module.exports = {
+  data: new SlashCommandBuilder()
+    .setName("bắtđầu")
+    .setDescription("Bắt đầu hành trình câu cá của bạn"),
+  async execute(interaction) {
+    const id = interaction.user.id;
+    const data = await loadData();
+    await handleStart(interaction, data, id);
+    await saveData(data);
+  },
+};
