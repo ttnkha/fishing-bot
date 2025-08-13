@@ -2,7 +2,7 @@
   "name": "fishing-bot",
   "version": "1.0.0",
   "description": "",
-  "main": "botHandlers.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest",
     "lint": "eslint .",
