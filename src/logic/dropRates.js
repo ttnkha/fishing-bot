@@ -1,8 +1,9 @@
 module.exports = {
   baitDropRates: [
-    { type: "common", rate: 60 },
-    { type: "trash", rate: 25 },
-    { type: "rare", rate: 15 },
+    { rarity: 1, rate: 50 },
+    { rarity: 2, rate: 15 },
+    { rarity: 3, rate: 5 },
+    { rarity: -1, rate: 20 },
   ],
   fishLevelRates: {
     1: 60,

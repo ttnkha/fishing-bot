@@ -13,12 +13,12 @@ const { loadData } = require("@services/dataStore");
 const {
   handleStart,
   handleDig,
-  handleHook,
   handleBag,
   showRodShop,
   handleUpgradeRod,
 } = require("@handlers/botHandlers");
 const { handleSellFishInteraction, promptUserToSellFish } = require("@handlers/fishSellHandler");
+const { promptUserToSelectBait } = require("@handlers/hookHandler");
 
 const client = new Client({
   intents: [
@@ -87,7 +87,7 @@ client.on("messageCreate", async (message) => {
         await handleDig(message, data, id);
         break;
       case "câu":
-        await handleHook(message, data, id);
+        await promptUserToSelectBait(message, data, id);
         break;
       case "túi":
         await handleBag(message, data, id);

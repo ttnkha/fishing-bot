@@ -1,8 +1,7 @@
 const items = require("@root/items.json");
-const { getFish, getBait } = require("@logic/gameLogic");
+const { getBait } = require("@logic/gameLogic");
 const { saveData } = require("@services/dataStore");
 const { messages } = require("@services/strings");
-const { fishesByRarity } = require("@logic/fishData");
 
 async function handleStart(message, data, id) {
   if (data[id]) {
@@ -28,52 +27,28 @@ async function handleDig(message, data, id) {
 
   switch (type) {
     case "common":
-      data[id].bait.push(bait);
+    case "rare": {
+      const inventory = data[id].bait || [];
+      const existingBait = inventory.find((b) => b.name === bait.name);
+
+      if (existingBait) {
+        existingBait.quantity = (existingBait.quantity || 1) + 1;
+      } else {
+        bait.quantity = 1;
+        inventory.push(bait);
+      }
+      data[id].bait = inventory;
       await saveData(data);
-      return message.reply(messages.foundBait(bait));
+
+      if (type === "common") {
+        return message.reply(messages.foundBait(bait));
+      } else {
+        return message.reply(messages.foundRareBait(bait));
+      }
+    }
     case "trash":
       return message.reply(messages.foundTrash(trash));
-    case "rare":
-      data[id].bait.push(bait);
-      await saveData(data);
-      return message.reply(messages.foundRareBait(bait));
   }
-}
-
-async function handleHook(message, data, id) {
-  if (!data[id]) {
-    return message.reply(messages.notStarted);
-  }
-
-  if (data[id].bait.length <= 0) {
-    return message.reply(messages.noBait);
-  }
-
-  const rod = data[id].rod;
-  const bait = data[id].bait.pop();
-
-  const { type, fish } = getFish(rod.code, bait.rarity, fishesByRarity);
-
-  if (type === "miss") {
-    await saveData(data);
-    return message.reply(messages.miss);
-  }
-
-  // 🐟 Check if fish already exists in inventory
-  const inventory = data[id].inventory || [];
-  const existingFish = inventory.find((f) => f.name === fish.name);
-
-  if (existingFish) {
-    existingFish.quantity += 1;
-  } else {
-    fish.quantity = 1;
-    inventory.push(fish);
-  }
-
-  data[id].inventory = inventory;
-  await saveData(data);
-
-  return message.reply(messages.caughtFish(fish.name));
 }
 
 async function handleBag(message, data, id) {
@@ -82,8 +57,9 @@ async function handleBag(message, data, id) {
   }
 
   const inv = data[id].inventory;
+  const baits = data[id].bait;
   return message.reply(
-    `Cần: ${data[id].rod.name} | Mồi: ${data[id].bait.length} | Túi cá: ${inv.length > 0 ? inv.map((e) => `${e.name} (Số lượng: ${e.quantity})`).join(", ") : "Trống"} | Coins: ${data[id].coins || 0}`
+    `Cần: ${data[id].rod.name} | Mồi: ${baits.length > 0 ? baits.map((e) => `${e.name} (Số lượng: ${e.quantity})`).join(", ") : "Trống"} | Túi cá: ${inv.length > 0 ? inv.map((e) => `${e.name} (Số lượng: ${e.quantity})`).join(", ") : "Trống"} | Coins: ${data[id].coins || 0}`
   );
 }
 
@@ -121,7 +97,6 @@ async function showRodShop(message) {
 module.exports = {
   handleStart,
   handleDig,
-  handleHook,
   handleBag,
   handleUpgradeRod,
   showRodShop,

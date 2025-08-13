@@ -6,6 +6,7 @@ const {
   baitModifiers,
   fishLevelRates,
 } = require("./dropRates");
+const { baitsByRarity } = require("./itemsByRarity");
 
 function getRandomItem(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -13,13 +14,13 @@ function getRandomItem(arr) {
 
 function getBait(items, roll) {
   const thresholds = toCumulativeThresholds(baitDropRates);
-  const outcome = thresholds.find((t) => roll < t.max).type;
+  const outcome = thresholds.find((t) => roll < t.max).rarity;
 
-  if (outcome === "common" || outcome === "rare") {
-    return { type: outcome, bait: getRandomItem(items.baits) };
+  if (outcome === -1) {
+    return { type: "trash", trash: getRandomItem(items.trash) };
   }
 
-  return { type: "trash", trash: getRandomItem(items.trash) };
+  return { type: outcome <= 2 ? "common" : "rare", bait: getRandomItem(baitsByRarity[outcome]) };
 }
 
 function calculateFinalRates(rodCode, baitType) {

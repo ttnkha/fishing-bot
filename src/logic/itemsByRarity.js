@@ -10,7 +10,9 @@ function groupByRarity(fishes) {
 }
 
 const fishesByRarity = groupByRarity(items.fishes);
+const baitsByRarity = groupByRarity(items.baits);
 
 module.exports = {
   fishesByRarity,
+  baitsByRarity,
 };

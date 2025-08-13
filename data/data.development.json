@@ -6,13 +6,31 @@
       "name": "Gỗ",
       "price": 0
     },
-    "bait": [],
+    "bait": [
+      {
+        "name": "Giun đất",
+        "rarity": 1,
+        "quantity": 2
+      }
+    ],
     "inventory": [
       {
         "name": "Cá nục",
         "rarity": 1,
         "price": 100,
-        "quantity": 1
+        "quantity": 2
+      },
+      {
+        "name": "Cá lòng tong",
+        "rarity": 1,
+        "price": 100,
+        "quantity": 2
+      },
+      {
+        "name": "Cá diếc",
+        "rarity": 1,
+        "price": 100,
+        "quantity": 2
       }
     ],
     "coins": 800
