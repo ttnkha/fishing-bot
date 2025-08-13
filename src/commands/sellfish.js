@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require("discord.js");
 const { loadData } = require("@services/dataStore");
-const { promptUserToSellFish } = require("@handlers/botHandlers");
+const { promptUserToSellFish } = require("@handlers/fishSellHandler");
 
 module.exports = {
   data: new SlashCommandBuilder().setName("bán").setDescription("Bán một con cá trong túi của bạn"),

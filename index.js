@@ -15,10 +15,10 @@ const {
   handleDig,
   handleHook,
   handleBag,
-  promptUserToSellFish,
   showRodShop,
   handleUpgradeRod,
 } = require("@handlers/botHandlers");
+const { handleSellFishInteraction, promptUserToSellFish } = require("@handlers/fishSellHandler");
 
 const client = new Client({
   intents: [
@@ -42,6 +42,12 @@ client.once("ready", () => {
 });
 
 client.on("interactionCreate", async (interaction) => {
+  if (interaction.isModalSubmit()) {
+    if (interaction.customId.startsWith("sell-quantity-")) {
+      await handleSellFishInteraction(interaction);
+    }
+  }
+
   if (!interaction.isCommand()) return;
 
   const command = client.commands.get(interaction.commandName);

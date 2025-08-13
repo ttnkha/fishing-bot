@@ -3,7 +3,6 @@ const { getFish, getBait } = require("@logic/gameLogic");
 const { saveData } = require("@services/dataStore");
 const { messages } = require("@services/strings");
 const { fishesByRarity } = require("@logic/fishData");
-const { ActionRowBuilder, StringSelectMenuBuilder } = require("discord.js");
 
 async function handleStart(message, data, id) {
   if (data[id]) {
@@ -45,7 +44,8 @@ async function handleHook(message, data, id) {
   if (!data[id]) {
     return message.reply(messages.notStarted);
   }
-  if (data[id].bait <= 0) {
+
+  if (data[id].bait.length <= 0) {
     return message.reply(messages.noBait);
   }
 
@@ -59,8 +59,20 @@ async function handleHook(message, data, id) {
     return message.reply(messages.miss);
   }
 
-  data[id].inventory.push(fish);
+  // 🐟 Check if fish already exists in inventory
+  const inventory = data[id].inventory || [];
+  const existingFish = inventory.find((f) => f.name === fish.name);
+
+  if (existingFish) {
+    existingFish.quantity += 1;
+  } else {
+    fish.quantity = 1;
+    inventory.push(fish);
+  }
+
+  data[id].inventory = inventory;
   await saveData(data);
+
   return message.reply(messages.caughtFish(fish.name));
 }
 
@@ -71,85 +83,8 @@ async function handleBag(message, data, id) {
 
   const inv = data[id].inventory;
   return message.reply(
-    `Cần: ${data[id].rod.name} | Mồi: ${data[id].bait.length} | Túi cá: ${inv.length > 0 ? inv.map((e) => e.name).join(", ") : "Trống"} | Coins: ${data[id].coins || 0}`
+    `Cần: ${data[id].rod.name} | Mồi: ${data[id].bait.length} | Túi cá: ${inv.length > 0 ? inv.map((e) => `${e.name} (Số lượng: ${e.quantity})`).join(", ") : "Trống"} | Coins: ${data[id].coins || 0}`
   );
-}
-
-async function handleSellFish(message, data, id, fishName) {
-  if (!data[id]) {
-    return message.reply(messages.notStarted);
-  }
-
-  const inventory = data[id].inventory || [];
-  const fishIndex = inventory.findIndex(
-    (fish) => fish.name.toLowerCase() === fishName.toLowerCase()
-  );
-
-  if (fishIndex === -1) {
-    return message.reply(messages.noFishInBag(fishName));
-  }
-
-  // Find fish price from items.json (ensure price property exists)
-  const fishItem = items.fishes.find((fish) => fish.name.toLowerCase() === fishName.toLowerCase());
-  if (!fishItem) {
-    return message.reply(messages.notFoundFish(fishName));
-  }
-
-  // Remove fish from inventory
-  inventory.splice(fishIndex, 1);
-
-  // Add coins to player (default 0 if undefined)
-  data[id].coins = (data[id].coins || 0) + (fishItem.price || 0);
-
-  await saveData(data);
-
-  return message.reply(messages.sellSuccess(fishItem.name, fishItem.price));
-}
-
-async function promptUserToSellFish(interaction, data, id) {
-  const inv = data[id]?.inventory || [];
-  if (inv.length === 0) {
-    return interaction.reply(messages.noFishToSell);
-  }
-
-  const options = inv.slice(0, 25).map((fish, idx) => ({
-    label: fish.name,
-    value: `${idx}`,
-  }));
-
-  const menu = new StringSelectMenuBuilder()
-    .setCustomId("sell-fish-select")
-    .setPlaceholder("Chọn cá để bán")
-    .addOptions(options);
-
-  const row = new ActionRowBuilder().addComponents(menu);
-
-  await interaction.reply({
-    content: messages.selectFishToSell,
-    components: [row],
-    ephemeral: true,
-  });
-
-  const collector = interaction.channel.createMessageComponentCollector({
-    componentType: 3,
-    time: 30000,
-    filter: (i) => i.user.id === id,
-  });
-
-  collector.once("collect", async (i) => {
-    const index = parseInt(i.values[0], 10);
-    const selectedFish = inv[index];
-    await handleSellFish(i, data, id, selectedFish.name);
-  });
-
-  collector.once("end", async (_, reason) => {
-    if (reason === "time") {
-      await interaction.editReply({
-        content: messages.sellTimeout,
-        components: [],
-      });
-    }
-  });
 }
 
 async function handleUpgradeRod(message, data, userId) {
@@ -188,8 +123,6 @@ module.exports = {
   handleDig,
   handleHook,
   handleBag,
-  handleSellFish,
-  promptUserToSellFish,
   handleUpgradeRod,
   showRodShop,
 };

@@ -6,17 +6,15 @@
       "name": "Gỗ",
       "price": 0
     },
-    "bait": [
+    "bait": [],
+    "inventory": [
       {
-        "name": "Bọ ánh trăng",
-        "rarity": 3
-      },
-      {
-        "name": "Bọ ánh trăng",
-        "rarity": 3
+        "name": "Cá nục",
+        "rarity": 1,
+        "price": 100,
+        "quantity": 1
       }
     ],
-    "inventory": [],
-    "coins": 0
+    "coins": 800
   }
 }
