@@ -1,0 +1,22 @@
+{
+  "298633034922590208": {
+    "rod": {
+      "level": 1,
+      "code": "wood",
+      "name": "Gỗ",
+      "price": 0
+    },
+    "bait": [
+      {
+        "name": "Bọ ánh trăng",
+        "rarity": 3
+      },
+      {
+        "name": "Bọ ánh trăng",
+        "rarity": 3
+      }
+    ],
+    "inventory": [],
+    "coins": 0
+  }
+}

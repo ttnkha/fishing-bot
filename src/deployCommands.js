@@ -1,5 +1,8 @@
 require("module-alias/register");
-require("dotenv").config();
+const dotenv = require("dotenv");
+
+const env = process.env.NODE_ENV || "development";
+dotenv.config({ path: `.env.${env}` });
 
 const fs = require("fs");
 const path = require("path");

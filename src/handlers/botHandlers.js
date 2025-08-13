@@ -133,7 +133,7 @@ async function promptUserToSellFish(interaction, data, id) {
   const collector = interaction.channel.createMessageComponentCollector({
     componentType: 3,
     time: 30000,
-    filter: (i) => i.user.id === (interaction.user?.id ?? interaction.author?.id),
+    filter: (i) => i.user.id === id,
   });
 
   collector.once("collect", async (i) => {

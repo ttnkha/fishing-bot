@@ -1,18 +1,17 @@
 const fs = require("fs").promises;
 const { existsSync } = require("fs");
-
-const DATA_PATH = "./data/players.json";
+const dataFile = process.env.DATA_FILE;
 
 async function loadData() {
-  if (!existsSync(DATA_PATH)) {
-    await fs.writeFile(DATA_PATH, "{}");
+  if (!existsSync(dataFile)) {
+    await fs.writeFile(dataFile, "{}");
   }
-  const raw = await fs.readFile(DATA_PATH, "utf8");
+  const raw = await fs.readFile(dataFile, "utf8");
   return JSON.parse(raw);
 }
 
 async function saveData(data) {
-  await fs.writeFile(DATA_PATH, JSON.stringify(data, null, 2));
+  await fs.writeFile(dataFile, JSON.stringify(data, null, 2));
 }
 
 module.exports = {

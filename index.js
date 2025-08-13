@@ -1,8 +1,13 @@
 require("module-alias/register");
+require("./keepAlive");
+
+const dotenv = require("dotenv");
+
+const env = process.env.NODE_ENV || "development";
+dotenv.config({ path: `.env.${env}` });
 
 const fs = require("fs");
 const path = require("path");
-require("dotenv").config();
 const { Client, GatewayIntentBits } = require("discord.js");
 const { loadData } = require("@services/dataStore");
 const {
