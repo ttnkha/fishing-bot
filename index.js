@@ -2,9 +2,12 @@ require("module-alias/register");
 require("./keepAlive");
 
 const dotenv = require("dotenv");
-if (process.env.RAILWAY_ENVIRONMENT) {
+const isRailway = !!process.env.RAILWAY_PROJECT_NAME;
+if (isRailway) {
+  console.log("Running on Railway, env:", process.env.RAILWAY_ENVIRONMENT_NAME);
   dotenv.config();
 } else {
+  console.log("Running locally, loading .env file");
   const env = process.env.NODE_ENV || "development";
   dotenv.config({ path: `.env.${env}` });
 }
