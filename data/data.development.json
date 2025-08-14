@@ -10,12 +10,12 @@
       {
         "name": "Giun đất",
         "rarity": 1,
-        "quantity": 13
+        "quantity": 7
       },
       {
         "name": "Ruồi chúa",
         "rarity": 2,
-        "quantity": 4
+        "quantity": 5
       }
     ],
     "inventory": [
@@ -23,19 +23,19 @@
         "name": "Cá nục",
         "rarity": 1,
         "price": 100,
-        "quantity": 2
+        "quantity": 4
       },
       {
         "name": "Cá lòng tong",
         "rarity": 1,
         "price": 100,
-        "quantity": 2
+        "quantity": 3
       },
       {
         "name": "Cá diếc",
         "rarity": 1,
         "price": 100,
-        "quantity": 2
+        "quantity": 3
       }
     ],
     "coins": 800

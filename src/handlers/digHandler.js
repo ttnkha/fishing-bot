@@ -10,11 +10,11 @@ async function handleDig(message, data, id) {
     return message.reply(messages.notStarted);
   }
 
-  if (await isOnCooldown(id, DIG_COOLDOWN_MS)) {
+  if (await isOnCooldown(id, "dig", DIG_COOLDOWN_MS)) {
     return message.reply(messages.waitMessage);
   }
 
-  await setUserCooldown(id, Date.now());
+  await setUserCooldown(id, "dig", Date.now());
 
   const roll = Math.random() * 100;
   const { type, bait, trash } = getBait(items, roll);

@@ -3,40 +3,37 @@ const { existsSync } = require("fs");
 const COOLDOWN_FILE = process.env.COOLDOWN_FILE;
 
 async function readCooldowns() {
-  try {
-    if (!existsSync(COOLDOWN_FILE)) {
-      await fs.writeFile(COOLDOWN_FILE, "{}", "utf8");
-    }
-    const raw = await fs.readFile(COOLDOWN_FILE, "utf8");
-    return raw.trim() ? JSON.parse(raw) : {};
-  } catch (err) {
-    console.error("Error reading cooldown file:", err);
-    return {};
+  if (!existsSync(COOLDOWN_FILE)) {
+    await fs.writeFile(COOLDOWN_FILE, "{}", "utf8");
   }
+  const raw = await fs.readFile(COOLDOWN_FILE, "utf8");
+  return JSON.parse(raw || "{}");
 }
 
 async function writeCooldowns(data) {
-  await fs.writeFile(COOLDOWN_FILE, JSON.stringify(data, null, 2), "utf8");
+  await fs.writeFile(COOLDOWN_FILE, JSON.stringify(data, null, 2));
 }
 
-async function getUserCooldown(userId) {
+async function getUserCooldown(userId, action) {
   const data = await readCooldowns();
-  return data[userId] || 0;
+  return data[userId]?.[action] || 0;
 }
 
-async function setUserCooldown(userId, timestamp) {
+async function setUserCooldown(userId, action, timestamp) {
   const data = await readCooldowns();
-  data[userId] = timestamp;
+  if (!data[userId]) data[userId] = {};
+  data[userId][action] = timestamp;
   await writeCooldowns(data);
 }
 
-async function isOnCooldown(userId, cooldownMs) {
-  const lastUsed = await getUserCooldown(userId);
+async function isOnCooldown(userId, action, cooldownMs) {
+  const lastUsed = await getUserCooldown(userId, action);
+  console.log("===>", userId, action, lastUsed);
   return Date.now() - lastUsed < cooldownMs;
 }
 
-async function getCooldownRemaining(userId, cooldownMs) {
-  const lastUsed = await getUserCooldown(userId);
+async function getCooldownRemaining(userId, action, cooldownMs) {
+  const lastUsed = await getUserCooldown(userId, action);
   return Math.max(0, cooldownMs - (Date.now() - lastUsed));
 }
 

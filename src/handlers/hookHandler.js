@@ -3,8 +3,14 @@ const { saveData } = require("@services/dataStore");
 const { messages } = require("@services/strings");
 const { fishesByRarity } = require("@logic/itemsByRarity");
 const { StringSelectMenuBuilder, ActionRowBuilder, MessageFlags } = require("discord.js");
+const { HOOK_COOLDOWN_MS } = require("@config/constants");
+const { isOnCooldown, setUserCooldown } = require("@services/cooldownStore.js");
 
 async function promptUserToSelectBait(interaction, data, id) {
+  if (await isOnCooldown(id, "hook", HOOK_COOLDOWN_MS)) {
+    return interaction.reply(messages.waitMessage);
+  }
+
   const baits = data[id]?.bait || [];
   if (baits.length === 0) {
     return interaction.reply("Bạn không có mồi nào để câu.");
@@ -59,6 +65,8 @@ async function handleHook(interaction, data, id, baitIndex) {
   if (baitIndex === undefined || baitIndex < 0 || baitIndex >= baitList.length) {
     return interaction.reply("Mồi câu không hợp lệ hoặc chưa chọn.");
   }
+
+  await setUserCooldown(id, "hook", Date.now());
 
   const bait = baitList[baitIndex];
   const rod = data[id].rod;
