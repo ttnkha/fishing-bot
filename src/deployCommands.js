@@ -29,9 +29,11 @@ const rest = new REST({ version: "9" }).setToken(process.env.DISCORD_TOKEN);
 
 (async () => {
   try {
-    // console.log("Deleting all global commands...");
-    // await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), { body: [] });
-    // console.log("✅ All global commands deleted.");
+    console.log("Deleting all global commands...");
+    await rest.put(Routes.applicationCommands(process.env.CLIENT_ID, process.env.GUILD_ID), {
+      body: [],
+    });
+    console.log("✅ All global commands deleted.");
 
     console.log("Started refreshing application (/) commands.");
 

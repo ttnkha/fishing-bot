@@ -119,4 +119,7 @@ client.on("messageCreate", async (message) => {
   }
 });
 
+console.log(
+  `Bot started on host: ${process.env.RAILWAY_PRIVATE_DOMAIN || "local"} at ${new Date().toISOString()}`
+);
 client.login(process.env.DISCORD_TOKEN);
