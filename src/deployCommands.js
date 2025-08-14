@@ -1,8 +1,12 @@
 require("module-alias/register");
-const dotenv = require("dotenv");
 
-const env = process.env.NODE_ENV || "development";
-dotenv.config({ path: `.env.${env}` });
+const dotenv = require("dotenv");
+if (process.env.RAILWAY_ENVIRONMENT) {
+  dotenv.config();
+} else {
+  const env = process.env.NODE_ENV || "development";
+  dotenv.config({ path: `.env.${env}` });
+}
 
 const fs = require("fs");
 const path = require("path");
@@ -22,6 +26,10 @@ const rest = new REST({ version: "9" }).setToken(process.env.DISCORD_TOKEN);
 
 (async () => {
   try {
+    // console.log("Deleting all global commands...");
+    // await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), { body: [] });
+    // console.log("✅ All global commands deleted.");
+
     console.log("Started refreshing application (/) commands.");
 
     await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID), {

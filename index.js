@@ -2,13 +2,16 @@ require("module-alias/register");
 require("./keepAlive");
 
 const dotenv = require("dotenv");
-
-const env = process.env.NODE_ENV || "development";
-dotenv.config({ path: `.env.${env}` });
+if (process.env.RAILWAY_ENVIRONMENT) {
+  dotenv.config();
+} else {
+  const env = process.env.NODE_ENV || "development";
+  dotenv.config({ path: `.env.${env}` });
+}
 
 const fs = require("fs");
 const path = require("path");
-const { Client, GatewayIntentBits } = require("discord.js");
+const { Client, GatewayIntentBits, MessageFlags } = require("discord.js");
 const { loadData } = require("@services/dataStore");
 const {
   handleStart,
@@ -58,7 +61,10 @@ client.on("interactionCreate", async (interaction) => {
     await command.execute(interaction);
   } catch (error) {
     console.error(error);
-    await interaction.reply({ content: "Đã có lỗi xảy ra khi chạy lệnh!", ephemeral: true });
+    await interaction.reply({
+      content: "Đã có lỗi xảy ra khi chạy lệnh!",
+      flags: MessageFlags.Ephemeral,
+    });
   }
 });
 
