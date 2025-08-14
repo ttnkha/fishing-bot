@@ -8,8 +8,10 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "start": "NODE_ENV=production nodemon index.js --ignore data/",
-    "dev": "NODE_ENV=development nodemon index.js --ignore data/"
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development nodemon index.js --ignore data/",
+    "deploy:dev": "NODE_ENV=development node src/deployCommands.js",
+    "deploy:prod": "NODE_ENV=production node src/deployCommands.js"
   },
   "keywords": [],
   "author": "",
