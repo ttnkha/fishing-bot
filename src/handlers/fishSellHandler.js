@@ -1,5 +1,5 @@
 const items = require("@root/items.json");
-const { saveData, loadData } = require("@services/dataStore");
+const { saveData, loadData } = require("@services/data");
 const { messages } = require("@services/strings");
 const {
   ActionRowBuilder,
@@ -39,8 +39,8 @@ function removeFishFromInventory(inventory, fishName, quantity) {
   });
 }
 
-async function handleSellFish(messageOrInteraction, data, id, fishName, quantity) {
-  if (!data[id]) {
+async function handleSellFish(messageOrInteraction, userData, id, fishName, quantity) {
+  if (!userData) {
     return messageOrInteraction.reply(messages.notStarted);
   }
 
@@ -51,7 +51,7 @@ async function handleSellFish(messageOrInteraction, data, id, fishName, quantity
     });
   }
 
-  const inventory = data[id].inventory || [];
+  const inventory = userData.inventory || [];
   const fishNameLower = fishName.toLowerCase();
 
   // Total quantity of this fish in inventory
@@ -72,13 +72,13 @@ async function handleSellFish(messageOrInteraction, data, id, fishName, quantity
   }
 
   // Remove fish from inventory
-  data[id].inventory = removeFishFromInventory(inventory, fishName, quantity);
+  userData.inventory = removeFishFromInventory(inventory, fishName, quantity);
 
   // Add coins
   const totalEarned = (fishItem.price || 0) * quantity;
-  data[id].coins = (data[id].coins || 0) + totalEarned;
+  userData.coins = (userData.coins || 0) + totalEarned;
 
-  await saveData(data);
+  await saveData(id, userData);
 
   return messageOrInteraction.reply(
     messages.sellSuccess(fishItem.name, fishItem.price, quantity, totalEarned)
@@ -106,8 +106,8 @@ async function handleSellFishInteraction(interaction) {
   await handleSellFish(interaction, data, userId, selectedFish.name, quantity);
 }
 
-async function promptUserToSellFish(interaction, data, id) {
-  const inv = data[id]?.inventory || [];
+async function promptUserToSellFish(interaction, userData, id) {
+  const inv = userData?.inventory || [];
   if (inv.length === 0) {
     return interaction.reply(messages.noFishToSell);
   }

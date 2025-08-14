@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js");
-const { loadData } = require("@services/dataStore");
+const { loadData } = require("@services/data");
 const { handleUpgradeRod } = require("@handlers/botHandlers");
 
 module.exports = {
@@ -7,7 +7,7 @@ module.exports = {
 
   async execute(interaction) {
     const id = interaction.user.id;
-    const data = await loadData();
+    const data = await loadData(id);
     await handleUpgradeRod(interaction, data, id);
   },
 };

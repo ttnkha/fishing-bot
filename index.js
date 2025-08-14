@@ -15,7 +15,7 @@ if (isRailway) {
 const fs = require("fs");
 const path = require("path");
 const { Client, GatewayIntentBits, MessageFlags } = require("discord.js");
-const { loadData } = require("@services/dataStore");
+const { loadData } = require("@services/data");
 const { handleStart, handleBag, showRodShop, handleUpgradeRod } = require("@handlers/botHandlers");
 const { handleSellFishInteraction, promptUserToSellFish } = require("@handlers/fishSellHandler");
 const { promptUserToSelectBait } = require("@handlers/hookHandler");
@@ -74,15 +74,15 @@ client.on("messageCreate", async (message) => {
   const args = message.content.slice(1).split(/ +/);
   const command = args.shift().toLowerCase();
 
+  const id = message.author.id;
+
   let data;
   try {
-    data = await loadData();
+    data = await loadData(id);
   } catch (error) {
     console.error("Lỗi khi đọc dữ liệu:", error);
     return message.reply("Lỗi hệ thống, vui lòng thử lại sau.");
   }
-
-  const id = message.author.id;
 
   try {
     switch (command) {
@@ -96,7 +96,7 @@ client.on("messageCreate", async (message) => {
         await promptUserToSelectBait(message, data, id);
         break;
       case "túi":
-        await handleBag(message, data, id);
+        await handleBag(message, data);
         break;
       case "bán":
         await promptUserToSellFish(message, data, id);

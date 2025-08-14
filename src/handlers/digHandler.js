@@ -1,12 +1,12 @@
 const items = require("@root/items.json");
 const { getBait } = require("@logic/gameLogic");
-const { saveData } = require("@services/dataStore");
+const { saveData } = require("@services/data");
 const { messages } = require("@services/strings");
 const { DIG_COOLDOWN_MS } = require("@config/constants");
-const { isOnCooldown, setUserCooldown } = require("@services/cooldownStore.js");
+const { isOnCooldown, setUserCooldown } = require("@services/cooldowns.js");
 
-async function handleDig(message, data, id) {
-  if (!data[id]) {
+async function handleDig(message, userData, id) {
+  if (!userData) {
     return message.reply(messages.notStarted);
   }
 
@@ -22,7 +22,7 @@ async function handleDig(message, data, id) {
   switch (type) {
     case "common":
     case "rare": {
-      const inventory = data[id].bait || [];
+      const inventory = userData.bait || [];
       const existingBait = inventory.find((b) => b.name === bait.name);
 
       if (existingBait) {
@@ -31,8 +31,8 @@ async function handleDig(message, data, id) {
         bait.quantity = 1;
         inventory.push(bait);
       }
-      data[id].bait = inventory;
-      await saveData(data);
+      userData.bait = inventory;
+      await saveData(id, userData);
 
       if (type === "common") {
         return message.reply(messages.foundBait(bait));

@@ -1,17 +1,17 @@
 const { getFish } = require("@logic/gameLogic");
-const { saveData } = require("@services/dataStore");
+const { saveData } = require("@services/data");
 const { messages } = require("@services/strings");
 const { fishesByRarity } = require("@logic/itemsByRarity");
 const { StringSelectMenuBuilder, ActionRowBuilder, MessageFlags } = require("discord.js");
 const { HOOK_COOLDOWN_MS } = require("@config/constants");
-const { isOnCooldown, setUserCooldown } = require("@services/cooldownStore.js");
+const { isOnCooldown, setUserCooldown } = require("@services/cooldowns.js");
 
-async function promptUserToSelectBait(interaction, data, id) {
+async function promptUserToSelectBait(interaction, userData, id) {
   if (await isOnCooldown(id, "hook", HOOK_COOLDOWN_MS)) {
     return interaction.reply(messages.waitMessage);
   }
 
-  const baits = data[id]?.bait || [];
+  const baits = userData?.bait || [];
   if (baits.length === 0) {
     return interaction.reply("Bạn không có mồi nào để câu.");
   }
@@ -44,7 +44,7 @@ async function promptUserToSelectBait(interaction, data, id) {
     const baitIndex = parseInt(i.values[0], 10);
 
     // Pass the collected interaction, not the original one, to handleHook
-    await handleHook(i, data, id, baitIndex);
+    await handleHook(i, userData, id, baitIndex);
   });
 
   collector.once("end", (_, reason) => {
@@ -56,12 +56,12 @@ async function promptUserToSelectBait(interaction, data, id) {
   });
 }
 
-async function handleHook(interaction, data, id, baitIndex) {
-  if (!data[id]) {
+async function handleHook(interaction, userData, id, baitIndex) {
+  if (!userData) {
     return interaction.reply(messages.notStarted);
   }
 
-  const baitList = data[id].bait || [];
+  const baitList = userData.bait || [];
   if (baitIndex === undefined || baitIndex < 0 || baitIndex >= baitList.length) {
     return interaction.reply("Mồi câu không hợp lệ hoặc chưa chọn.");
   }
@@ -69,7 +69,7 @@ async function handleHook(interaction, data, id, baitIndex) {
   await setUserCooldown(id, "hook", Date.now());
 
   const bait = baitList[baitIndex];
-  const rod = data[id].rod;
+  const rod = userData.rod;
 
   const { type, fish } = getFish(rod.code, bait.rarity, fishesByRarity);
 
@@ -82,12 +82,12 @@ async function handleHook(interaction, data, id, baitIndex) {
   }
 
   if (type === "miss") {
-    await saveData(data);
+    await saveData(id, userData);
     return interaction.reply(messages.miss);
   }
 
   // Add or increment fish in inventory
-  const inventory = data[id].inventory || [];
+  const inventory = userData.inventory || [];
   const existingFish = inventory.find((f) => f.name === fish.name);
   if (existingFish) {
     existingFish.quantity += 1;
@@ -96,8 +96,8 @@ async function handleHook(interaction, data, id, baitIndex) {
     inventory.push(fish);
   }
 
-  data[id].inventory = inventory;
-  await saveData(data);
+  userData.inventory = inventory;
+  await saveData(id, userData);
 
   return interaction.reply(messages.caughtFish(fish.name));
 }

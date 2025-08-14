@@ -1,9 +1,9 @@
 require("module-alias/register");
 
 const { getFish, getBait } = require("@logic/gameLogic");
-const { saveData } = require("@services/dataStore");
+const { saveData } = require("@services/data");
 
-jest.mock("@services/dataStore", () => ({
+jest.mock("@services/data", () => ({
   saveData: jest.fn(() => Promise.resolve()),
 }));
 
