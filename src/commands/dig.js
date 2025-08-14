@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { handleDig } = require("@handlers/botHandlers");
+const { handleDig } = require("@handlers/digHandler");
 const { loadData } = require("@services/dataStore");
 
 module.exports = {

@@ -16,15 +16,12 @@ const fs = require("fs");
 const path = require("path");
 const { Client, GatewayIntentBits, MessageFlags } = require("discord.js");
 const { loadData } = require("@services/dataStore");
-const {
-  handleStart,
-  handleDig,
-  handleBag,
-  showRodShop,
-  handleUpgradeRod,
-} = require("@handlers/botHandlers");
+const { handleStart, handleBag, showRodShop, handleUpgradeRod } = require("@handlers/botHandlers");
 const { handleSellFishInteraction, promptUserToSellFish } = require("@handlers/fishSellHandler");
 const { promptUserToSelectBait } = require("@handlers/hookHandler");
+const { handleDig } = require("@handlers/digHandler");
+
+// https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=2147551232&scope=bot%20applications.commands
 
 const client = new Client({
   intents: [

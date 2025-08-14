@@ -1,7 +1,7 @@
 module.exports = {
   baitDropRates: [
     { rarity: 1, rate: 50 },
-    { rarity: 2, rate: 15 },
+    { rarity: 2, rate: 25 },
     { rarity: 3, rate: 5 },
     { rarity: -1, rate: 20 },
   ],
