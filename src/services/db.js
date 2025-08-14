@@ -10,7 +10,7 @@ async function connect(collectionName) {
   if (collection) return collection;
 
   if (!client) {
-    client = new MongoClient(uri);
+    client = new MongoClient(uri, { tls: true });
     await client.connect();
     console.log("Connected to MongoDB");
   }
