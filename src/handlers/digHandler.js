@@ -4,6 +4,7 @@ const { saveData } = require("@services/data");
 const { messages } = require("@services/strings");
 const { DIG_COOLDOWN_MS } = require("@config/constants");
 const { getCooldownRemaining, setUserCooldown } = require("@services/cooldowns.js");
+const { formatTimeGMT7 } = require("@handlers/utils");
 
 async function handleDig(message, userData, id) {
   if (!userData) {
@@ -13,10 +14,7 @@ async function handleDig(message, userData, id) {
   const cooldownRemaining = await getCooldownRemaining(id, "dig", DIG_COOLDOWN_MS);
   if (cooldownRemaining > 0) {
     const unblockTime = new Date(Date.now() + cooldownRemaining);
-    const formattedTime = unblockTime.toLocaleTimeString("vi-VN", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+    const formattedTime = formatTimeGMT7(unblockTime);
     return message.reply(messages.waitMessage(formattedTime));
   }
 
