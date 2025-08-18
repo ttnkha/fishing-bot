@@ -20,7 +20,7 @@ const messages = {
   noFishToSell: "Bạn không có cá nào trong túi.",
   selectFishToSell: "🎣 Chọn cá bạn muốn bán:",
   sellTimeout: "⏰ Hết thời gian chọn cá.",
-  waitMessage: "Đ mệt hả trời 🫩",
+  waitMessage: (unblockTime) => `Đ mệt hả trời 🫩, ${unblockTime} mở block.`,
 };
 
 module.exports = {

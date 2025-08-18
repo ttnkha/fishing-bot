@@ -4,11 +4,17 @@ const { messages } = require("@services/strings");
 const { fishesByRarity } = require("@logic/itemsByRarity");
 const { StringSelectMenuBuilder, ActionRowBuilder, MessageFlags } = require("discord.js");
 const { HOOK_COOLDOWN_MS } = require("@config/constants");
-const { isOnCooldown, setUserCooldown } = require("@services/cooldowns.js");
+const { getCooldownRemaining, setUserCooldown } = require("@services/cooldowns.js");
 
 async function promptUserToSelectBait(interaction, userData, id) {
-  if (await isOnCooldown(id, "hook", HOOK_COOLDOWN_MS)) {
-    return interaction.reply(messages.waitMessage);
+  const cooldownRemaining = await getCooldownRemaining(id, "hook", HOOK_COOLDOWN_MS);
+  if (cooldownRemaining > 0) {
+    const unblockTime = new Date(Date.now() + cooldownRemaining);
+    const formattedTime = unblockTime.toLocaleTimeString("vi-VN", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    return interaction.reply(messages.waitMessage(formattedTime));
   }
 
   const baits = userData?.bait || [];
