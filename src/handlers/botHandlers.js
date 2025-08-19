@@ -24,9 +24,15 @@ async function handleBag(message, userData) {
   const inv = userData.inventory;
   const baits = userData.bait;
   const rod = userData.rod;
-  return message.reply(
-    `Cần: ${rod.name}${rod.broken ? " - Hỏng" : ""} (Độ bền: ${rod.durability ?? 100}) | Mồi: ${baits.length > 0 ? baits.map((e) => `${e.name} (Số lượng: ${e.quantity})`).join(", ") : "Trống"} | Túi cá: ${inv.length > 0 ? inv.map((e) => `${e.name} (Số lượng: ${e.quantity})`).join(", ") : "Trống"} | Coins: ${userData.coins || 0}`
-  );
+
+  const rodStatus = `🪝 Cần: ${rod.name}${rod.broken ? " ❌ Hỏng" : ""} (🔧 Độ bền: ${rod.durability ?? 100})`;
+  const baitStatus = `🪱 Mồi: ${baits.length > 0 ? baits.map((e) => `${e.name} (🎯 ${e.quantity})`).join(", ") : "Trống"}`;
+  const invStatus = `🐟 Túi cá: ${inv.length > 0 ? inv.map((e) => `${e.name} (🎯 ${e.quantity})`).join(", ") : "Trống"}`;
+  const coinStatus = `💰 Coins: ${userData.coins || 0}`;
+
+  const statusMessage = `🎒 Túi đồ của bạn gồm:\n${rodStatus}\n${baitStatus}\n${invStatus}\n${coinStatus}`;
+
+  return message.reply(statusMessage);
 }
 
 async function handleUpgradeRod(message, userData, userId) {
