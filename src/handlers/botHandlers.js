@@ -23,8 +23,9 @@ async function handleBag(message, userData) {
 
   const inv = userData.inventory;
   const baits = userData.bait;
+  const rod = userData.rod;
   return message.reply(
-    `Cần: ${userData.rod.name} | Mồi: ${baits.length > 0 ? baits.map((e) => `${e.name} (Số lượng: ${e.quantity})`).join(", ") : "Trống"} | Túi cá: ${inv.length > 0 ? inv.map((e) => `${e.name} (Số lượng: ${e.quantity})`).join(", ") : "Trống"} | Coins: ${userData.coins || 0}`
+    `Cần: ${rod.name}${rod.broken ? " - Hỏng" : ""} (Độ bền: ${rod.durability ?? 100}) | Mồi: ${baits.length > 0 ? baits.map((e) => `${e.name} (Số lượng: ${e.quantity})`).join(", ") : "Trống"} | Túi cá: ${inv.length > 0 ? inv.map((e) => `${e.name} (Số lượng: ${e.quantity})`).join(", ") : "Trống"} | Coins: ${userData.coins || 0}`
   );
 }
 

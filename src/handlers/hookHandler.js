@@ -19,6 +19,25 @@ async function promptUserToSelectBait(interaction, userData, id) {
     return interaction.reply("Bạn không có mồi nào để câu.");
   }
 
+  const rod = userData.rod;
+  if (!rod) {
+    return interaction.reply("Bạn chưa có cần câu.");
+  }
+
+  if (rod.broken) {
+    return interaction.reply("Cần câu của bạn đã bị gãy. Hãy sửa nó trước khi tiếp tục câu cá.");
+  }
+
+  if (rod.level > 1) {
+    rod.durability = rod.durability ?? 100;
+
+    if (rod.durability <= 0) {
+      rod.broken = true;
+      await saveData(id, userData);
+      return interaction.reply("Cần câu của bạn đã bị gãy!");
+    }
+  }
+
   const options = baits.map((bait, idx) => ({
     label: `${bait.name} (Độ hiếm: ${bait.rarity}, Số lượng: ${bait.quantity})`,
     value: `${idx}`,
@@ -71,8 +90,8 @@ async function handleHook(interaction, userData, id, baitIndex) {
 
   await setUserCooldown(id, "hook", Date.now());
 
-  const bait = baitList[baitIndex];
   const rod = userData.rod;
+  const bait = baitList[baitIndex];
 
   const { type, fish } = getFish(rod.code, bait.rarity, fishesByRarity);
 
@@ -100,6 +119,7 @@ async function handleHook(interaction, userData, id, baitIndex) {
   }
 
   userData.inventory = inventory;
+  rod.durability -= 10;
   await saveData(id, userData);
 
   return interaction.reply(messages.caughtFish(fish.name));
