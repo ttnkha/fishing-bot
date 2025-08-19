@@ -6,22 +6,20 @@ async function showRodShop(message, userData) {
   const currentLevel = currentRod?.level || 1;
   const userCoins = userData?.coins || 0;
 
-  let shopText = "🛒 **CỬA HÀNG CẦN CÂU**\n\n🎣 **Các loại cần câu có thể nâng cấp:**\n";
+  let shopText = "🛒 **CỬA HÀNG CẦN CÂU**\n\n🎣 **Cần câu tiếp theo bạn có thể nâng cấp:**\n";
 
-  const availableUpgrades = items.rods.filter((r) => r.level > currentLevel);
+  // Only allow upgrading to the next level rod (one at a time)
+  const nextRod = items.rods.find((r) => r.level === currentLevel + 1);
 
-  if (availableUpgrades.length === 0) {
-    shopText += "• 🚫 Không có nâng cấp nào khả dụng cho cần câu của bạn.\n";
+  if (!nextRod) {
+    shopText += "• 🏁 Bạn đã sở hữu cần câu cấp cao nhất!\n";
   } else {
-    availableUpgrades.forEach((r) => {
-      const remaining = r.price - userCoins;
-      const remainingText = remaining > 0 ? `❗ Thiếu: ${remaining} coins` : `✅ Đủ tiền`;
+    const remaining = nextRod.price - userCoins;
+    const remainingText = remaining > 0 ? `❗ Thiếu: ${remaining} coins` : `✅ Đủ tiền`;
 
-      shopText += `• 🔹 **Level ${r.level}** - ${r.name} — 💰 ${r.price} coins (${remainingText})\n`;
-    });
+    shopText += `• 🔹 **Level ${nextRod.level}** - ${nextRod.name} — 💰 ${nextRod.price} coins (${remainingText})\n`;
+    shopText += `\n📈 Dùng lệnh \`!nangcapcan\` để nâng cấp lên cần câu này.`;
   }
-
-  shopText += `\n📈 Dùng lệnh \`!nangcapcan\` để nâng cấp cần câu của bạn.`;
 
   if (currentRod?.broken) {
     const repairCost = getRepairCost(currentRod);
