@@ -87,13 +87,13 @@ async function handleSellFish(messageOrInteraction, userData, id, fishName, quan
 
 async function handleSellFishInteraction(interaction) {
   const userId = interaction.user.id;
-  const data = await loadData();
+  const data = await loadData(userId);
 
   const index = parseInt(interaction.customId.split("-")[2], 10);
   const quantityStr = interaction.fields.getTextInputValue("quantity");
   const quantity = parseInt(quantityStr, 10);
 
-  const inventory = data[userId]?.inventory || [];
+  const inventory = data.inventory || [];
   const selectedFish = inventory[index];
 
   if (!selectedFish) {

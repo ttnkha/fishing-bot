@@ -6,7 +6,8 @@ const messages = {
   miss: "Rất tiếc! Cá đã thoát mất.",
   notFoundFish: (fishName) => `Không thể bán cá "${fishName}" vì không tìm thấy thông tin giá.`,
   noFishInBag: (fishName) => `Bạn không có cá tên "${fishName}" trong túi.`,
-  sellSuccess: (fish, price) => `Bạn đã bán thành công **${fish}** với giá ${price} coins!`,
+  sellSuccess: (fish, price, quantity, totalEarned) =>
+    `Bạn đã bán thành công **${quantity} ${fish}** với giá ${price} coins. Tổng nhận được: **${totalEarned} coins**!`,
   foundBait: (bait) => `Bạn tìm được mồi **${bait.name}** (Độ hiếm: ${bait.rarity})!`,
   foundTrash: (trash) => `Bạn tìm được rác: ${trash.name}...`,
   foundRareBait: (bait) => `Bạn rất may mắn! Nhặt được mồi hiếm **${bait.name}**!`,
