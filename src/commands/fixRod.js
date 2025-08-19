@@ -1,13 +1,13 @@
 const { SlashCommandBuilder } = require("discord.js");
 const { loadData } = require("@services/data");
-const { showRodShop } = require("@handlers/shopHandlers");
+const { fixRod } = require("@handlers/rodHandlers");
 
 module.exports = {
-  data: new SlashCommandBuilder().setName("cửahàng").setDescription("Xem cửa hàng (nâng cấp,...)"),
+  data: new SlashCommandBuilder().setName("sửacầncâu").setDescription("Sửa cần câu của bạn"),
 
   async execute(interaction) {
     const id = interaction.user.id;
     const data = await loadData(id);
-    await showRodShop(interaction, data);
+    await fixRod(interaction, data, id);
   },
 };

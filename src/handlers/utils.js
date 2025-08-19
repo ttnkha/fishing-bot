@@ -16,7 +16,10 @@ function formatTimeGMT7(date) {
   return `${hours}:${minutes}`;
 }
 
+const getRepairCost = (rod) => rod.level * 100;
+
 module.exports = {
   toCumulativeThresholds,
   formatTimeGMT7,
+  getRepairCost,
 };

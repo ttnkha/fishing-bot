@@ -67,12 +67,13 @@ node index.js
 
 ## ✅ Features
 
-- `!bắtđầu` — Start your fishing journey
-- `!đào` — Dig for bait or trash
-- `!câu` — Fish with your current rod and bait
-- `!túi` — View your inventory
-- `/sell` — Slash command to sell fish via select menu
-- `!nângcấpcần` — Upgrade your fishing rod
+- `!batdau` — Start your fishing journey
+- `!dao` — Dig for bait or trash
+- `!cau` — Fish with your current rod and bait
+- `!tui` — View your inventory
+- `!ban` — Slash command to sell fish via select menu
+- `!nangcapcan` — Upgrade your fishing rod
+- `!suacancau` — Fix your fishing rod
 - Rod shop display and upgrade logic
 - Modular game logic and data structure
 - Unit-tested core functionality

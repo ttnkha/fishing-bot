@@ -56,18 +56,8 @@ async function handleUpgradeRod(message, userData, userId) {
   message.reply(messages.upgradeSuccess(nextRod.name, nextRod.price));
 }
 
-async function showRodShop(message) {
-  let shopText = messages.rodShopIntro;
-  items.rods.forEach((r) => {
-    shopText += `- Level ${r.level}: ${r.name} - Giá: ${r.price} coins\n`;
-  });
-  shopText += messages.rodShopUsage;
-  message.reply(shopText);
-}
-
 module.exports = {
   handleStart,
   handleBag,
   handleUpgradeRod,
-  showRodShop,
 };

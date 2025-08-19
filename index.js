@@ -16,10 +16,12 @@ const fs = require("fs");
 const path = require("path");
 const { Client, GatewayIntentBits, MessageFlags } = require("discord.js");
 const { loadData } = require("@services/data");
-const { handleStart, handleBag, showRodShop, handleUpgradeRod } = require("@handlers/botHandlers");
+const { handleStart, handleBag } = require("@handlers/botHandlers");
 const { handleSellFishInteraction, promptUserToSellFish } = require("@handlers/fishSellHandler");
 const { promptUserToSelectBait } = require("@handlers/hookHandler");
 const { handleDig } = require("@handlers/digHandler");
+const { showRodShop } = require("@handlers/shopHandlers");
+const { handleUpgradeRod, fixRod } = require("@handlers/rodHandlers");
 
 // https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=2147551232&scope=bot%20applications.commands
 
@@ -86,26 +88,29 @@ client.on("messageCreate", async (message) => {
 
   try {
     switch (command) {
-      case "bắtđầu":
+      case "batdau":
         await handleStart(message, data, id);
         break;
-      case "đào":
+      case "dao":
         await handleDig(message, data, id);
         break;
-      case "câu":
+      case "cau":
         await promptUserToSelectBait(message, data, id);
         break;
-      case "túi":
+      case "tui":
         await handleBag(message, data);
         break;
-      case "bán":
+      case "ban":
         await promptUserToSellFish(message, data, id);
         break;
-      case "cửahàng":
-        await showRodShop(message);
+      case "cuahang":
+        await showRodShop(message, data);
         break;
-      case "nângcấpcần":
+      case "nangcapcan":
         await handleUpgradeRod(message, data, id);
+        break;
+      case "suacancau":
+        await fixRod(message, data, id);
         break;
       default:
         message.reply("Lệnh không hợp lệ hoặc chưa được hỗ trợ.");

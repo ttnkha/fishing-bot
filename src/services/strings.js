@@ -1,8 +1,8 @@
 const messages = {
   alreadyStarted: "Bạn đã bắt đầu trò chơi rồi!",
-  startSuccess: "🎉 Bắt đầu thành công! Hãy dùng `!đào` để tìm mồi.",
-  notStarted: "Bạn chưa bắt đầu trò chơi. Dùng `!bắtđầu` để bắt đầu.",
-  noBait: "Bạn không có mồi để câu cá. Hãy dùng `!đào` để tìm mồi.",
+  startSuccess: "🎉 Bắt đầu thành công! Hãy dùng `!dao` để tìm mồi.",
+  notStarted: "Bạn chưa bắt đầu trò chơi. Dùng `!batdau` để bắt đầu.",
+  noBait: "Bạn không có mồi để câu cá. Hãy dùng `!dao` để tìm mồi.",
   miss: "Rất tiếc! Cá đã thoát mất.",
   notFoundFish: (fishName) => `Không thể bán cá "${fishName}" vì không tìm thấy thông tin giá.`,
   noFishInBag: (fishName) => `Bạn không có cá tên "${fishName}" trong túi.`,
@@ -16,8 +16,10 @@ const messages = {
     `Chúc mừng! Bạn đã nâng cấp cần câu lên **${rodName}** với giá ${price} coins.`,
   alreadyMaxRod: "Bạn đã sở hữu cần câu cao cấp nhất!",
   notEnoughCoins: (needed) => `Bạn cần thêm ${needed} coins để nâng cấp.`,
-  rodShopIntro: "🛒 **Cửa hàng nâng cấp cần câu:**\n",
-  rodShopUsage: "\nDùng lệnh `!nângcấpcần` để nâng cấp cần câu của bạn!",
+  rodRepairSuccess: "🔧 Bạn đã sửa cần câu thành công! Sẵn sàng tiếp tục câu cá 🎣",
+  rodRepairNotBroken: "✅ Cần câu của bạn vẫn còn tốt, không cần sửa.",
+  rodRepairNotEnoughCoins: (repairCost) =>
+    `❌ Bạn không có đủ coins để sửa cần câu. Cần ${repairCost} coins.`,
   noFishToSell: "Bạn không có cá nào trong túi.",
   selectFishToSell: "🎣 Chọn cá bạn muốn bán:",
   sellTimeout: "⏰ Hết thời gian chọn cá.",

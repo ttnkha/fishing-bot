@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require("discord.js");
 const { loadData } = require("@services/data");
-const { handleUpgradeRod } = require("@handlers/botHandlers");
+const { handleUpgradeRod } = require("@handlers/rodHandlers");
 
 module.exports = {
   data: new SlashCommandBuilder().setName("nângcấpcần").setDescription("Nâng cấp cần câu của bạn"),
