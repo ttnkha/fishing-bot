@@ -158,6 +158,8 @@ async function promptUserToSellFish(interaction, userData, id) {
       modal.addComponents(new ActionRowBuilder().addComponents(quantityInput));
 
       await i.showModal(modal);
+
+      collector.stop("collected");
     } catch (error) {
       console.error("Error showing modal:", error);
       try {
