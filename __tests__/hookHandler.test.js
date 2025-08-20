@@ -451,7 +451,7 @@ describe("promptUserToSelectBait", () => {
     expect(mockSetPlaceholder).toHaveBeenCalledWith("Chọn mồi câu");
     expect(mockAddOptions).toHaveBeenCalledWith([
       {
-        label: "Bait1 (Độ hiếm: 1, Số lượng: 2)",
+        label: "Bait1 x2 [Độ hiếm: 1]",
         value: "0",
       },
     ]);

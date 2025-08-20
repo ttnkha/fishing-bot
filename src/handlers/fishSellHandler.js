@@ -113,7 +113,7 @@ async function promptUserToSellFish(interaction, userData, id) {
   }
 
   const options = inv.map((fish, idx) => ({
-    label: `${fish.name} (Số lượng: ${fish.quantity})`,
+    label: `${fish.name} x${fish.quantity}`,
     value: `${idx}`,
   }));
 

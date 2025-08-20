@@ -26,8 +26,17 @@ async function handleBag(message, userData) {
   const rod = userData.rod;
 
   const rodStatus = `🪝 Cần: ${rod.name}${rod.broken ? " ❌ Hỏng" : ""} (🔧 Độ bền: ${rod.durability ?? 100})`;
-  const baitStatus = `🪱 Mồi: ${baits.length > 0 ? baits.map((e) => `${e.name} (🎯 ${e.quantity})`).join(", ") : "Trống"}`;
-  const invStatus = `🐟 Túi cá: ${inv.length > 0 ? inv.map((e) => `${e.name} (🎯 ${e.quantity})`).join(", ") : "Trống"}`;
+
+  const baitStatus =
+    baits.length > 0
+      ? `🪱 Mồi:\n${baits.map((e) => `– ${e.name} x${e.quantity}`).join("\n")}`
+      : "🪱 Mồi: Trống";
+
+  const invStatus =
+    inv.length > 0
+      ? `🐟 Túi cá:\n${inv.map((e) => `– ${e.name} x${e.quantity}`).join("\n")}`
+      : "🐟 Túi cá: Trống";
+
   const coinStatus = `💰 Coins: ${userData.coins || 0}`;
 
   const statusMessage = `🎒 Túi đồ của bạn gồm:\n${rodStatus}\n${baitStatus}\n${invStatus}\n${coinStatus}`;

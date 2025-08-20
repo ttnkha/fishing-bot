@@ -40,7 +40,7 @@ async function promptUserToSelectBait(interaction, userData, id) {
   }
 
   const options = baits.map((bait, idx) => ({
-    label: `${bait.name} (Độ hiếm: ${bait.rarity}, Số lượng: ${bait.quantity})`,
+    label: `${bait.name} x${bait.quantity} [Độ hiếm: ${bait.rarity}]`,
     value: `${idx}`,
   }));
 
