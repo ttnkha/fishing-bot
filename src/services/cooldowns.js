@@ -1,4 +1,4 @@
-const { connect } = require("./db");
+const { connect } = require("@services/db");
 
 const collectionName = process.env.COOLDOWN_COLLECTION || "dev_cooldowns";
 

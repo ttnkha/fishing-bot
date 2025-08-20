@@ -8,7 +8,7 @@ const {
   TextInputBuilder,
   TextInputStyle,
 } = require("discord.js");
-const { MessageFlags } = require("discord-api-types/v10");
+const { MessageFlags } = require("discord.js");
 
 // Helper: find fish item info by name
 function findFishItemByName(fishName) {
@@ -97,19 +97,19 @@ async function handleSellFishInteraction(interaction) {
   const selectedFish = inventory[index];
 
   if (!selectedFish) {
-    return interaction.reply({
+    return interaction.editReply({
       content: "Cá đã chọn không hợp lệ.",
       flags: MessageFlags.Ephemeral,
     });
   }
 
-  await handleSellFish(interaction, data, userId, selectedFish.name, quantity);
+  await module.exports.handleSellFish(interaction, data, userId, selectedFish.name, quantity);
 }
 
 async function promptUserToSellFish(interaction, userData, id) {
   const inv = userData?.inventory || [];
   if (inv.length === 0) {
-    return interaction.reply(messages.noFishToSell);
+    return interaction.editReply(messages.noFishToSell);
   }
 
   const options = inv.map((fish, idx) => ({
@@ -124,7 +124,7 @@ async function promptUserToSellFish(interaction, userData, id) {
 
   const row = new ActionRowBuilder().addComponents(menu);
 
-  await interaction.reply({
+  await interaction.editReply({
     content: messages.selectFishToSell,
     components: [row],
     flags: MessageFlags.Ephemeral,
@@ -164,7 +164,7 @@ async function promptUserToSellFish(interaction, userData, id) {
       console.error("Error showing modal:", error);
       try {
         if (!i.replied && !i.deferred) {
-          await i.reply({
+          await i.editReply({
             content: "Đã xảy ra lỗi khi hiển thị form bán cá.",
             flags: MessageFlags.Ephemeral,
           });
@@ -189,4 +189,6 @@ module.exports = {
   handleSellFish,
   handleSellFishInteraction,
   promptUserToSellFish,
+  removeFishFromInventory,
+  findFishItemByName,
 };

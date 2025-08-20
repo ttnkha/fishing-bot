@@ -27,4 +27,6 @@ function createCooldownEmbed(cooldownMs, cooldownRemaining) {
 
 module.exports = {
   createCooldownEmbed,
+  msToTime,
+  createProgressBar,
 };

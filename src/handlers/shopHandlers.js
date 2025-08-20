@@ -26,7 +26,7 @@ async function showRodShop(message, userData) {
     shopText += `\n\n🛠️ **Cần câu của bạn đang bị hỏng!**\nSử dụng lệnh \`!suacancau\` để sửa với giá **${repairCost} coins**.`;
   }
 
-  message.reply(shopText);
+  message.editReply(shopText);
 }
 
 module.exports = {

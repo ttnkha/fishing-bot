@@ -4,7 +4,7 @@ const { messages } = require("@services/strings");
 
 async function handleStart(message, userData, userId) {
   if (userData) {
-    return message.reply(messages.alreadyStarted);
+    return message.editReply(messages.alreadyStarted);
   }
   userData = {
     rod: items.rods[0],
@@ -13,12 +13,12 @@ async function handleStart(message, userData, userId) {
     coins: 0,
   };
   await saveData(userId, userData);
-  return message.reply(messages.startSuccess);
+  return message.editReply(messages.startSuccess);
 }
 
 async function handleBag(message, userData) {
   if (!userData) {
-    return message.reply(messages.notStarted);
+    return message.editReply(messages.notStarted);
   }
 
   const inv = userData.inventory;
@@ -32,32 +32,10 @@ async function handleBag(message, userData) {
 
   const statusMessage = `🎒 Túi đồ của bạn gồm:\n${rodStatus}\n${baitStatus}\n${invStatus}\n${coinStatus}`;
 
-  return message.reply(statusMessage);
-}
-
-async function handleUpgradeRod(message, userData, userId) {
-  if (!userData) return message.reply("User data not found.");
-
-  const rods = items.rods;
-  const nextRod = rods.find((r) => r.level === userData.rod.level + 1);
-
-  if (!nextRod) return message.reply(messages.alreadyMaxRod);
-
-  if (userData.coins < nextRod.price) {
-    return message.reply(messages.notEnoughCoins(nextRod.price - userData.coins));
-  }
-
-  // Deduct coins and upgrade rod level
-  userData.coins -= nextRod.price;
-  userData.rod = nextRod;
-
-  await saveData(userId, userData); // your save function
-
-  message.reply(messages.upgradeSuccess(nextRod.name, nextRod.price));
+  return message.editReply(statusMessage);
 }
 
 module.exports = {
   handleStart,
   handleBag,
-  handleUpgradeRod,
 };

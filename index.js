@@ -60,13 +60,26 @@ client.on("interactionCreate", async (interaction) => {
   if (!command) return;
 
   try {
+    await interaction.deferReply({ ephemeral: MessageFlags.Ephemeral });
+
     await command.execute(interaction);
   } catch (error) {
     console.error(error);
-    await interaction.reply({
-      content: "Đã có lỗi xảy ra khi chạy lệnh!",
-      flags: MessageFlags.Ephemeral,
-    });
+    try {
+      if (!interaction.replied && !interaction.deferred) {
+        await interaction.reply({
+          content: "Đã có lỗi xảy ra khi chạy lệnh!",
+          flags: MessageFlags.Ephemeral,
+        });
+      } else {
+        await interaction.followUp({
+          content: "Đã có lỗi xảy ra khi chạy lệnh!",
+          flags: MessageFlags.Ephemeral,
+        });
+      }
+    } catch (err) {
+      console.error("Không thể gửi phản hồi lỗi:", err);
+    }
   }
 });
 
@@ -87,6 +100,8 @@ client.on("messageCreate", async (message) => {
   }
 
   try {
+    await message.deferReply({ ephemeral: MessageFlags.Ephemeral });
+
     switch (command) {
       case "batdau":
         await handleStart(message, data, id);
@@ -113,7 +128,7 @@ client.on("messageCreate", async (message) => {
         await fixRod(message, data, id);
         break;
       default:
-        message.reply("Lệnh không hợp lệ hoặc chưa được hỗ trợ.");
+        message.editReply("Lệnh không hợp lệ hoặc chưa được hỗ trợ.");
     }
   } catch (error) {
     console.error("Lỗi xử lý lệnh:", error);

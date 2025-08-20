@@ -11,30 +11,31 @@ async function promptUserToSelectBait(interaction, userData, id) {
   const cooldownRemaining = await getCooldownRemaining(id, "hook", HOOK_COOLDOWN_MS);
   if (cooldownRemaining > 0) {
     const embed = createCooldownEmbed(HOOK_COOLDOWN_MS, cooldownRemaining);
-    return interaction.reply({ embeds: [embed] });
+    return interaction.editReply({ embeds: [embed] });
   }
 
   const baits = userData?.bait || [];
   if (baits.length === 0) {
-    return interaction.reply("Bạn không có mồi nào để câu.");
+    return interaction.editReply("Bạn không có mồi nào để câu.");
   }
 
   const rod = userData.rod;
   if (!rod) {
-    return interaction.reply("Bạn chưa có cần câu.");
+    return interaction.editReply("Bạn chưa có cần câu.");
   }
 
   if (rod.broken) {
-    return interaction.reply("Cần câu của bạn đã bị gãy. Hãy sửa nó trước khi tiếp tục câu cá.");
+    return interaction.editReply(
+      "Cần câu của bạn đã bị gãy. Hãy sửa nó trước khi tiếp tục câu cá."
+    );
   }
 
   if (rod.level > 1) {
     rod.durability = rod.durability ?? 100;
-
     if (rod.durability <= 0) {
       rod.broken = true;
       await saveData(id, userData);
-      return interaction.reply("Cần câu của bạn đã bị gãy!");
+      return interaction.editReply("Cần câu của bạn đã bị gãy!");
     }
   }
 
@@ -50,7 +51,7 @@ async function promptUserToSelectBait(interaction, userData, id) {
 
   const row = new ActionRowBuilder().addComponents(menu);
 
-  await interaction.reply({
+  await interaction.editReply({
     content: "Chọn mồi câu bạn muốn sử dụng:",
     components: [row],
     flags: MessageFlags.Ephemeral,
@@ -64,9 +65,7 @@ async function promptUserToSelectBait(interaction, userData, id) {
 
   collector.once("collect", async (i) => {
     const baitIndex = parseInt(i.values[0], 10);
-
-    // Pass the collected interaction, not the original one, to handleHook
-    await handleHook(i, userData, id, baitIndex);
+    await module.exports.handleHook(i, userData, id, baitIndex);
   });
 
   collector.once("end", (_, reason) => {
@@ -92,7 +91,6 @@ async function handleHook(interaction, userData, id, baitIndex) {
 
   const rod = userData.rod;
   const bait = baitList[baitIndex];
-
   const { type, fish } = getFish(rod.code, bait.rarity, fishesByRarity);
 
   // Decrease quantity of the used bait by 1
@@ -117,14 +115,14 @@ async function handleHook(interaction, userData, id, baitIndex) {
     fish.quantity = 1;
     inventory.push(fish);
   }
-
   userData.inventory = inventory;
+
   rod.durability -= 10;
   await saveData(id, userData);
-
   return interaction.reply(messages.caughtFish(fish.name));
 }
 
 module.exports = {
   promptUserToSelectBait,
+  handleHook,
 };

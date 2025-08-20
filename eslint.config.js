@@ -18,8 +18,12 @@ module.exports = [
         expect: "readonly",
         beforeEach: "readonly",
         afterEach: "readonly",
+        beforeAll: "readonly",
+        afterAll: "readonly",
         __dirname: "readonly",
         process: "readonly",
+        setImmediate: "readonly",
+        setTimeout: "readonly",
       },
     },
     plugins: {

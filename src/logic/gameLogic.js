@@ -9,6 +9,9 @@ const {
 const { baitsByRarity } = require("./itemsByRarity");
 
 function getRandomItem(arr) {
+  if (!arr) {
+    return null;
+  }
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
@@ -31,7 +34,7 @@ function calculateFinalRates(rodCode, baitType) {
   let total = 0;
 
   for (const rarity in fishLevelRates) {
-    const baseRate = fishLevelRates[rarity] || 0;
+    const baseRate = fishLevelRates[rarity];
     const rodRate = rodRates?.[rarity] ?? 1; // nếu không có, lấy 1
     let rate = baseRate * rodRate;
 

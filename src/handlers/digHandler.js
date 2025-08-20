@@ -8,13 +8,13 @@ const { createCooldownEmbed } = require("@services/cooldownEmbed");
 
 async function handleDig(message, userData, id) {
   if (!userData) {
-    return message.reply(messages.notStarted);
+    return message.editReply(messages.notStarted);
   }
 
   const cooldownRemaining = await getCooldownRemaining(id, "dig", DIG_COOLDOWN_MS);
   if (cooldownRemaining > 0) {
     const embed = createCooldownEmbed(DIG_COOLDOWN_MS, cooldownRemaining);
-    return message.reply({ embeds: [embed] });
+    return message.editReply({ embeds: [embed] });
   }
 
   await setUserCooldown(id, "dig", Date.now());
@@ -38,13 +38,13 @@ async function handleDig(message, userData, id) {
       await saveData(id, userData);
 
       if (type === "common") {
-        return message.reply(messages.foundBait(bait));
+        return message.editReply(messages.foundBait(bait));
       } else {
-        return message.reply(messages.foundRareBait(bait));
+        return message.editReply(messages.foundRareBait(bait));
       }
     }
     case "trash":
-      return message.reply(messages.foundTrash(trash));
+      return message.editReply(messages.foundTrash(trash));
   }
 }
 
