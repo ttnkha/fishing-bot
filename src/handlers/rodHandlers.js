@@ -7,7 +7,7 @@ async function handleUpgradeRod(message, userData, userId) {
   if (!userData) return message.editReply("User data not found.");
 
   const rods = items.rods;
-  const nextRod = rods.find((r) => r.level === userData.rod.level + 1);
+  const nextRod = rods.find((r) => r.level === (userData.rod?.level ?? 0) + 1);
 
   if (!nextRod) return message.editReply(messages.alreadyMaxRod);
 
@@ -42,12 +42,25 @@ async function fixRod(message, userData, userId) {
   }
 
   userData.coins -= repairCost;
-  rod.broken = false;
-  rod.durability = 100;
 
-  await saveData(userId, userData);
+  const rods = items.rods;
+  const rodInfo = rods.find((r) => r.code === rod.code);
+  const repairChance = rodInfo?.repairChance ?? 1;
 
-  return message.editReply(messages.rodRepairSuccess);
+  const success = Math.random() < repairChance;
+
+  if (success) {
+    rod.broken = false;
+    rod.durability = 100;
+    await saveData(userId, userData);
+    return message.editReply(messages.rodRepairSuccess);
+  } else {
+    delete userData.rod;
+    await saveData(userId, userData);
+    return message.editReply(
+      "💥 Sửa thất bại! Cần câu của bạn đã bị hỏng hoàn toàn và không thể phục hồi."
+    );
+  }
 }
 
 module.exports = {

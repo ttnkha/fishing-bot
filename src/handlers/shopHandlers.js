@@ -3,7 +3,7 @@ const { getRepairCost } = require("@handlers/utils");
 
 async function showRodShop(message, userData) {
   const currentRod = userData?.rod;
-  const currentLevel = currentRod?.level || 1;
+  const currentLevel = currentRod?.level || 0;
   const userCoins = userData?.coins || 0;
 
   let shopText = "🛒 **CỬA HÀNG CẦN CÂU**\n\n🎣 **Cần câu tiếp theo bạn có thể nâng cấp:**\n";

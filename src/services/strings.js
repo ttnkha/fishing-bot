@@ -16,10 +16,9 @@ const messages = {
     `Chúc mừng! Bạn đã nâng cấp cần câu lên **${rodName}** với giá ${price} coins.`,
   alreadyMaxRod: "Bạn đã sở hữu cần câu cao cấp nhất!",
   notEnoughCoins: (needed) => `Bạn cần thêm ${needed} coins để nâng cấp.`,
-  rodRepairSuccess: "🔧 Bạn đã sửa cần câu thành công! Sẵn sàng tiếp tục câu cá 🎣",
-  rodRepairNotBroken: "✅ Cần câu của bạn vẫn còn tốt, không cần sửa.",
-  rodRepairNotEnoughCoins: (repairCost) =>
-    `❌ Bạn không có đủ coins để sửa cần câu. Cần ${repairCost} coins.`,
+  rodRepairSuccess: "✅ Bạn đã sửa thành công cần câu!",
+  rodRepairNotBroken: "🔧 Cần câu của bạn chưa bị hỏng.",
+  rodRepairNotEnoughCoins: (cost) => `💰 Bạn cần ${cost} xu để sửa cần câu.`,
   noFishToSell: "Bạn không có cá nào trong túi.",
   selectFishToSell: "🎣 Chọn cá bạn muốn bán:",
   sellTimeout: "⏰ Hết thời gian chọn cá.",

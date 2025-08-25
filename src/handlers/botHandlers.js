@@ -25,7 +25,16 @@ async function handleBag(message, userData) {
   const baits = userData.bait;
   const rod = userData.rod;
 
-  const rodStatus = `🪝 Cần: ${rod.name}${rod.broken ? " ❌ Hỏng" : ""} (🔧 Độ bền: ${rod.durability ?? 100})`;
+  let rodStatus;
+  if (!rod) {
+    rodStatus = "🪝 Cần: Không có";
+  } else {
+    const name = rod.name;
+    const broken = rod.broken ? " ❌ Hỏng" : "";
+    const durability = rod.durability ?? 100;
+
+    rodStatus = `🪝 Cần: ${name}${broken} (🔧 Độ bền: ${durability})`;
+  }
 
   const baitStatus =
     baits.length > 0

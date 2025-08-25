@@ -5,10 +5,38 @@
     { "name": "Bọ ánh trăng", "rarity": 3 }
   ],
   "rods": [
-    { "level": 1, "code": "wood", "name": "Gỗ", "price": 0, "durability": 100 },
-    { "level": 2, "code": "iron", "name": "Sắt", "price": 5000, "durability": 100 },
-    { "level": 3, "code": "titan", "name": "Titan", "price": 15000, "durability": 100 },
-    { "level": 4, "code": "gold", "name": "Vàng", "price": 50000, "durability": 100 }
+    {
+      "level": 1,
+      "code": "wood",
+      "name": "Gỗ",
+      "price": 0,
+      "durability": 100,
+      "repairChance": 1.0
+    },
+    {
+      "level": 2,
+      "code": "iron",
+      "name": "Sắt",
+      "price": 5000,
+      "durability": 100,
+      "repairChance": 0.9
+    },
+    {
+      "level": 3,
+      "code": "titan",
+      "name": "Titan",
+      "price": 15000,
+      "durability": 100,
+      "repairChance": 0.75
+    },
+    {
+      "level": 4,
+      "code": "gold",
+      "name": "Vàng",
+      "price": 50000,
+      "durability": 100,
+      "repairChance": 0.6
+    }
   ],
   "fishes": [
     { "name": "Cá nục", "rarity": 1, "price": 100 },
